@@ -1,0 +1,14 @@
+key,type,encoding,value
+chip-factory,namespace,,
+discriminator,data,u32,1907
+iteration-count,data,u32,10000
+salt,data,string,bWqWj7PgFks5KTll+TJ5Rv4Bf3q9bT5yWrgAxfDA0sU=
+vendor-id,data,u32,65522
+product-id,data,u32,32769
+serial-num,data,string,4b7523b7bd5ce85ccbd2b0fb5c544e35
+dac-cert,file,binary,/home/recha/esp/projects/m_humidor03/out/fff2_8001/221402ec-574e-4977-8514-00d8b9c8ad38/internal/DAC_cert.der
+dac-key,file,binary,/home/recha/esp/projects/m_humidor03/out/fff2_8001/221402ec-574e-4977-8514-00d8b9c8ad38/internal/DAC_private_key.bin
+dac-pub-key,file,binary,/home/recha/esp/projects/m_humidor03/out/fff2_8001/221402ec-574e-4977-8514-00d8b9c8ad38/internal/DAC_public_key.bin
+pai-cert,file,binary,/home/recha/esp/projects/m_humidor03/out/fff2_8001/staging/pai_cert.der
+verifier,data,string,tSYAYk8zkch39KTQh/pXxoRea2RKFN9KfHWBl5F1vpgEu3javgRukVBkFeaEPo2Gpb6qRbGiMAiheFjN6P9iN7YJT8qlD905QXOaotj/RrA/8rR5qF4pkAdm8FCjwkDr/A==
+cert-dclrn,file,binary,../../v5.3/esp-matter/connectedhomeip/connectedhomeip/credentials/test/certification-declaration/Chip-Test-CD-FFF2-8001.der

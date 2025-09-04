@@ -1,0 +1,386 @@
+menu "Garage controller custom values"
+
+    config QUEUE_SIZE
+        int "queue size"
+        range 1 10
+        default 5
+        help
+            "Queue Size"
+
+    config RELAY_GPIO
+        int "Relay GPIO for garage control"
+        range 0 35
+        default 19
+       
+    config GARAGE_TASK_DELAY_MS
+        int "Delay for chcking garage position"
+        range 0 500
+        default 200
+        help
+            "value is in ms."
+
+    config GARAGE_MOVEMENT_TIMEOUT_MS
+        int "Timeout between sensor changed to detect movement is stopped"
+        range 1 50000
+        default 15000
+        help
+            "Timeout between sensor changed to detect movement is stopped"
+
+    config GARAGE_MOVEMENT_MIN_TIME_MS
+        int "Min tine for garage to open/close"
+        range 1 50000
+        default 5000
+        help
+            "Min tine for garage to open/close"
+endmenu
+
+menu "Garage Buttons & Sensors"
+
+    config BUTTON_ACTIVE_LEVEL
+        int "BUTTON Active low = 0, high = 1"
+        range 0 1
+        default 0
+        help
+            "Button active high/low"
+
+    config BUTTON_0_GPIO
+        int "Button0 GPIO"
+        range 0 35
+        default 34
+
+    config BUTTON_1_GPIO
+        int "Button1 GPIO"
+        range 0 35
+        default 35
+
+    config SENSOR_OPEN_GPIO
+        int "Sensor input pin for open position"
+        range 0 35
+        default 25
+        help
+            "sensor input pin for open position"
+
+    config SENSOR_MIDDLE_GPIO
+        int "Sensor input pin for middle position"
+        range 0 35
+        default 33
+        help
+            "sensor input pin for middle position"
+        
+    config SENSOR_CLOSED_GPIO
+        int "Sensor input pin for closed position"
+        range 0 35
+        default 32
+        help
+            "sensor input pin for closed position"
+        
+endmenu
+
+menu "Garage Leds"
+
+    config LEDC_FADE_TIME_FAST
+        int "Time for fading (in milliseconds)"
+        range 0 2000
+        default 800
+        help
+            "Time for fading (in milliseconds)"
+
+    config LEDC_FADE_TIME_SLOW
+        int "Time for fading (in milliseconds)"
+        range 0 2000
+        default 1500
+        help
+            "Time for fading (in milliseconds)"
+
+    config NUM_LEDS
+        int "Number of LEDS used on node"
+        range 0 7
+        default 6
+        help
+            "Number of LEDS used on node"
+        
+    config BUTT0_R_LED_PIN
+        int "Led Output Pin - RED"
+        range 0 36
+        default 12
+        help
+            "Led Output Pin - RED"
+
+    config BUTT0_G_LED_PIN
+        int "Led Output Pin - Green"
+        range 0 36
+        default 14
+        help
+            "Led Output Pin - Green"
+                                
+    config BUTT0_B_LED_PIN
+        int "Led Output Pin - Blue"
+        range 0 36
+        default 27
+        help
+            "Led Output Pin - Blue"
+
+    config BUTT1_R_LED_PIN
+        int "Led Output Pin - RED"
+        range 0 36
+        default 11
+        help
+            "Led Output Pin - RED"
+
+    config BUTT1_G_LED_PIN
+        int "Led Output Pin - Green"
+        range 0 36
+        default 17
+        help
+            "Led Output Pin - Green"
+                                
+    config BUTT1_B_LED_PIN
+        int "Led Output Pin - Blue"
+        range 0 36
+        default 16
+        help
+            "Led Output Pin - Blue"
+
+    config IDENTITY_LED_PIN
+        int "Led Output Pin - Commissioning / Identity"
+        range 0 36
+        default 18
+        help
+            "Led Output Pin - Blue"
+                
+         
+endmenu
+
+menu "AHT10 configuration"
+
+    config USE_AHT0
+    bool "Use AHT10/AHT15 Sensor 0"
+    default y
+    help
+        "Enable this option if you want to use the first AHT sensor (AHT0)."
+    
+    config USE_AHT1
+    bool "Use AHT10/AHT15 Sensor 1"
+    default y
+    help
+        "Enable this option if you want to use the second AHT sensor (AHT1)."
+    
+
+    choice AHTx_CHIP_TYPE
+        prompt "Select AHTx chip type"
+        default TYPE_AHT1x
+        help
+            "Select AHT chip type"
+
+        config TYPE_AHT1x
+            bool "AHT10 or AHT15"
+        config TYPE_AHT20
+            bool "AHT20"
+    endchoice
+
+    config AHT0_I2C_ADDRESS
+        hex "AHT0 I2C address"
+        default 0x38
+        
+    config AHT1_I2C_ADDRESS
+        hex "AHT0 I2C address"
+        default 0x38
+        
+    config AHT0_I2C_MASTER_FREQ_HZ
+        int "AHT0 I2C Frequency in Hz"
+        range 10000 400000
+        default 100000
+        help
+            "AHT0 I2C_MASTER_FREQ_HZ"
+
+    config AHT1_I2C_MASTER_FREQ_HZ
+        int "AHT1 I2C Frequency in Hz"
+        range 10000 400000
+        default 100000
+        help
+            "AHT1 I2C_MASTER_FREQ_HZ"
+
+    config AHT0_MEASURE_INTERVAL
+        int "AHT0 Default Measure Interval in milliseconds"
+        range 500 60000
+        default 5000
+        help 
+            "AHT0 Default Measure Interval in milliseconds"
+
+    config AHT1_MEASURE_INTERVAL
+        int "AHT1 Default Measure Interval in milliseconds"
+        range 500 60000
+        default 5000
+        help 
+            "AHT1 Default Measure Interval in milliseconds"
+
+    config AHT_DEFAULT_TEMPERATURE_VALUE
+        int "AHT 0 & 1 Default Temperature Value"
+        range -100 1000
+        default 1000
+        help 
+            "AHT0 & 1 Default Temperature Value"
+
+    config AHT_DEFAULT_HUMIDITY_VALUE
+        int "AHT0 & 1 Default Humidity Value"
+        range 0 100
+        default 0
+        help 
+            "AHT0 & 1 Default Humidity Value"
+
+    config AHT0_I2C_MASTER_SCL
+        int "AHT0 SCL GPIO Number"
+        default 5 if IDF_TARGET_ESP8266
+        default 6 if IDF_TARGET_ESP32C2 || IDF_TARGET_ESP32C3 || IDF_TARGET_ESP32C5 || IDF_TARGET_ESP32C6 || IDF_TARGET_ESP32C61
+        default 19 if IDF_TARGET_ESP32 || IDF_TARGET_ESP32S2 || IDF_TARGET_ESP32S3
+        default 4 if IDF_TARGET_ESP32H2
+        default 4 if IDF_TARGET_ESP32P4
+        help
+            "GPIO number for AHT0 I2C Master clock line."
+
+    config AHT1_I2C_MASTER_SCL
+        int "AHT1 SCL GPIO Number"
+        default 5 if IDF_TARGET_ESP8266
+        default 6 if IDF_TARGET_ESP32C2 || IDF_TARGET_ESP32C3 || IDF_TARGET_ESP32C5 || IDF_TARGET_ESP32C6 || IDF_TARGET_ESP32C61
+        default 19 if IDF_TARGET_ESP32 || IDF_TARGET_ESP32S2 || IDF_TARGET_ESP32S3
+        default 4 if IDF_TARGET_ESP32H2
+        default 4 if IDF_TARGET_ESP32P4
+        help
+            "GPIO number for AHT1 I2C Master clock line."
+
+    config AHT0_I2C_MASTER_SDA
+        int "AHT0 SDA GPIO Number"
+        default 4 if IDF_TARGET_ESP8266
+        default 5 if IDF_TARGET_ESP32C2 || IDF_TARGET_ESP32C3 || IDF_TARGET_ESP32C5 || IDF_TARGET_ESP32C6 || IDF_TARGET_ESP32C61
+        default 18 if IDF_TARGET_ESP32 || IDF_TARGET_ESP32S2 || IDF_TARGET_ESP32S3
+        default 3 if IDF_TARGET_ESP32H2
+        default 3 if IDF_TARGET_ESP32P4
+        help
+            "GPIO number for AHT0 I2C Master data line."
+
+    config AHT1_I2C_MASTER_SDA
+        int "AHT1 SDA GPIO Number"
+        default 4 if IDF_TARGET_ESP8266
+        default 5 if IDF_TARGET_ESP32C2 || IDF_TARGET_ESP32C3 || IDF_TARGET_ESP32C5 || IDF_TARGET_ESP32C6 || IDF_TARGET_ESP32C61
+        default 18 if IDF_TARGET_ESP32 || IDF_TARGET_ESP32S2 || IDF_TARGET_ESP32S3
+        default 3 if IDF_TARGET_ESP32H2
+        default 3 if IDF_TARGET_ESP32P4
+        help
+            "GPIO number for AHT1 I2C Master data line."
+endmenu
+
+menu "SSD1306 OLED Display configuration"
+
+    choice LCD_CONTROLLER_TYPE
+        prompt "LCD controller model"
+        default LCD_CONTROLLER_SSD1306
+        help
+            Select LCD controller model
+
+        config LCD_CONTROLLER_SSD1306
+            bool "SSD1306"
+
+        config LCD_CONTROLLER_SH1107
+            bool "SH1107"
+        
+        config LCD_CONTROLLER_NONE
+            bool "None Used"
+
+    endchoice
+
+    if LCD_CONTROLLER_SSD1306
+        choice SSD1306_HEIGHT
+            prompt "SSD1306 Height in pixels"
+            default SSD1306_HEIGHT_64
+            help
+                Height of the display in pixels. a.k.a vertical resolution
+
+            config SSD1306_HEIGHT_64
+                bool "64"
+            config SSD1306_HEIGHT_32
+                bool "32"
+        endchoice
+
+        config SSD1306_HEIGHT
+            int
+            default 64 if SSD1306_HEIGHT_64
+            default 32 if SSD1306_HEIGHT_32
+    endif
+
+    config LCD_CONTROLLER_WIDTH
+        int "Horizontal resolution"
+        range 64 256
+        default 128
+        help
+            "Horizontal resolution of the display"
+    
+    config ENABLE_OLED
+        bool "Enable OLED Display"
+        default y
+        help
+            "Enable OLED Display"
+
+    config OLED_I2C_BUS_PORT
+        int "OLED I2C Port Number"
+        range 0 1
+        default 0
+        help
+            "I2C Port number for OLED"
+
+    config OLED_I2C_ADDRESS
+        hex "Oled I2C Address"
+        range 0x3C 0x3D
+        default 0x3C
+        help
+            "Oled I2C Address"
+
+    config OLED_PIXEL_CLOCK_HZ
+        int "OLED I2C Frequency in Hz"
+        range 100000 500000
+        default 400000
+        help
+            "OLED I2C_MASTER_FREQ_HZ"
+
+    config OLED_I2C_MASTER_SCL
+        int "OLED SCL GPIO Number"
+        default 5 if IDF_TARGET_ESP8266
+        default 6 if IDF_TARGET_ESP32C2 || IDF_TARGET_ESP32C3 || IDF_TARGET_ESP32C5 || IDF_TARGET_ESP32C6 || IDF_TARGET_ESP32C61
+        default 19 if IDF_TARGET_ESP32 || IDF_TARGET_ESP32S2 || IDF_TARGET_ESP32S3
+        default 4 if IDF_TARGET_ESP32H2
+        default 4 if IDF_TARGET_ESP32P4
+        help
+            "GPIO number for OLED I2C Master clock line."
+
+    config OLED_I2C_MASTER_SDA
+        int "OLED SDA GPIO Number"
+        default 4 if IDF_TARGET_ESP8266
+        default 5 if IDF_TARGET_ESP32C2 || IDF_TARGET_ESP32C3 || IDF_TARGET_ESP32C5 || IDF_TARGET_ESP32C6 || IDF_TARGET_ESP32C61
+        default 18 if IDF_TARGET_ESP32 || IDF_TARGET_ESP32S2 || IDF_TARGET_ESP32S3
+        default 3 if IDF_TARGET_ESP32H2
+        default 3 if IDF_TARGET_ESP32P4
+        help
+            "GPIO number for OLED I2C Master data line."
+
+    config OLED_PIN_NUM_RST
+        int "OLED I2C Reset Pin Number"
+        default -1
+        help
+            "OLED I2C Reset Pin Number, -1 if not used"
+    
+    config OLED_CMD_BITS
+        int "Command bits"
+        range 1 16
+        default 8
+        help
+            "Command bits of the display"
+
+    config OLED_PARAM_BITS
+        int "Parameter bits"
+        range 1 16
+        default 8
+        help
+            "Parameter bits of the display"
+
+
+
+endmenu

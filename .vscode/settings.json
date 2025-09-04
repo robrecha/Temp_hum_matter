@@ -1,0 +1,36 @@
+{
+  "idf.customExtraVars": {
+    "ESP_MATTER_PATH": "/home/recha/esp/v5.3/esp-matter"
+  },
+  "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+  "C_Cpp.default.compileCommands": "${workspaceFolder}/build/compile_commands.json",
+  "idf.port": "/dev/ttyUSB0",
+  "idf.flashType": "UART",
+  "files.associations": {
+    "cstdint": "cpp",
+    "bitset": "cpp",
+    "string_view": "cpp",
+    "queue": "cpp",
+    "source_location": "cpp",
+    "optional": "cpp",
+    "ratio": "cpp",
+    "system_error": "cpp",
+    "array": "cpp",
+    "functional": "cpp",
+    "tuple": "cpp",
+    "type_traits": "cpp",
+    "utility": "cpp",
+    "variant": "cpp",
+    "__bit_reference": "cpp",
+    "__node_handle": "cpp",
+    "deque": "cpp",
+    "limits": "cpp",
+    "locale": "cpp",
+    "vector": "cpp",
+    "*.inc": "cpp",
+    "i2c_master.h": "c",
+    "__config": "cpp",
+    "esp_lcd_sh1107.h": "c",
+    "esp_lcd_panel_vendor.h": "c"
+  }
+}

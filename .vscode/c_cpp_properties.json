@@ -1,0 +1,19 @@
+{
+    "configurations": [
+      {
+        "name": "ESP-IDF",
+        "includePath": [
+          "${workspaceFolder}/**",
+          "/home/recha/esp/v5.3/esp-idf/components/**",
+          "/home/recha/esp/v5.3/esp-matter/**",
+          "/home/recha/esp/v5.3/esp-matter/connectedhomeip/connectedhomeip/src/**"
+        ],
+        "defines": [],
+        "intelliSenseMode": "gcc-x64",
+        "cStandard": "c11",
+        "cppStandard": "c++17",
+        "compileCommands": "${workspaceFolder}/build/compile_commands.json"
+      }
+    ],
+    "version": 4
+  }
