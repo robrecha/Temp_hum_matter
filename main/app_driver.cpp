@@ -13,6 +13,7 @@
 #include <device.h>
 #include <app_driver.h>
 #include <sensor_data.h>
+#include <my_screens/my_screens.h>
 #include "driver/gpio.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -85,10 +86,10 @@ void AHT10_0_TempHum_Task(void *pvParameters)
         ESP_LOGW(AHT0_TAG, " Sensor not calibrated!");
 
     sensor_reading_t AHT_val;
-    AHT_val.temperature[0] = 0;
-    AHT_val.temperature[1] = 0;
-    AHT_val.humidity[0] = 0;
-    AHT_val.humidity[1] = 0;
+    AHT_val.temperature[CURRENT] = 0;
+    AHT_val.temperature[PREVIOUS] = 0;
+    AHT_val.humidity[CURRENT] = 0;
+    AHT_val.humidity[PREVIOUS] = 0;
     
     while (1)
     {
@@ -98,9 +99,19 @@ void AHT10_0_TempHum_Task(void *pvParameters)
             if(AHT_val.temperature[CURRENT] != AHT_val.temperature[PREVIOUS] || AHT_val.humidity[CURRENT] != AHT_val.humidity[PREVIOUS]) {
                 // Update Matter with new values
                 updateMatterWithValues((u_int16_t)AHT_val.temperature[CURRENT] * 100, (u_int16_t)AHT_val.humidity[CURRENT] * 100);
-                if (xQueueSend(AHT0_sensor_queue, &AHT_val, pdMS_TO_TICKS(2)) != pdPASS) {        // For Screen update. Wait max 2ms if full
-                    ESP_LOGI("AHT0_sensor_queue", " q_full");
+                // Allocate update payload
+                sensor_reading_t *AHT_update = (sensor_reading_t *)malloc(sizeof(sensor_reading_t));
+                if (AHT_update) {
+                    AHT_update->temperature[CURRENT] = AHT_val.temperature[CURRENT];
+                    AHT_update->humidity[CURRENT]    = AHT_val.humidity[CURRENT];
+
+                    // Schedule safe LVGL update
+                    lv_async_call(update_temp_hum, AHT_update);
                 }
+
+//                if (xQueueSend(AHT0_sensor_queue, &AHT_val, pdMS_TO_TICKS(2)) != pdPASS) {        // For Screen update. Wait max 2ms if full
+//                    ESP_LOGI("AHT0_sensor_queue", " q_full");
+//                }
                 AHT_val.temperature[PREVIOUS] = AHT_val.temperature[CURRENT];
                 AHT_val.humidity[PREVIOUS] = AHT_val.humidity[CURRENT];
             }
@@ -135,10 +146,10 @@ void AHT10_1_TempHum_Task(void *pvParameters)
         ESP_LOGW(AHT1_TAG, " Sensor not calibrated!");
     
     sensor_reading_t AHT_val;
-    AHT_val.temperature[0] = 0;
-    AHT_val.temperature[1] = 0;
-    AHT_val.humidity[0] = 0;
-    AHT_val.humidity[1] = 0;
+    AHT_val.temperature[CURRENT] = 0;
+    AHT_val.temperature[PREVIOUS] = 0;
+    AHT_val.humidity[CURRENT] = 0;
+    AHT_val.humidity[PREVIOUS] = 0;
     
     while (1)
     {
@@ -148,9 +159,10 @@ void AHT10_1_TempHum_Task(void *pvParameters)
             if(AHT_val.temperature[CURRENT] != AHT_val.temperature[PREVIOUS] || AHT_val.humidity[CURRENT] != AHT_val.humidity[PREVIOUS]) {
                 // Update Matter with new values
                 updateMatterWithValues((u_int16_t)AHT_val.temperature[CURRENT] * 100, (u_int16_t)AHT_val.humidity[CURRENT] * 100);
-                if (xQueueSend(AHT1_sensor_queue, &AHT_val, pdMS_TO_TICKS(2)) != pdPASS) {        // For Screen update. Wait max 2ms if full
-                    ESP_LOGI("AHT1_sensor_queue", " q_full");
-                }
+
+//                if (xQueueSend(AHT1_sensor_queue, &AHT_val, pdMS_TO_TICKS(2)) != pdPASS) {        // For Screen update. Wait max 2ms if full
+//                   ESP_LOGI("AHT1_sensor_queue", " q_full");
+//                }
                 AHT_val.temperature[PREVIOUS] = AHT_val.temperature[CURRENT];
                 AHT_val.humidity[PREVIOUS] = AHT_val.humidity[CURRENT];
             }

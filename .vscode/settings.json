@@ -31,6 +31,8 @@
     "i2c_master.h": "c",
     "__config": "cpp",
     "esp_lcd_sh1107.h": "c",
-    "esp_lcd_panel_vendor.h": "c"
+    "esp_lcd_panel_vendor.h": "c",
+    "sensor_data.h": "c",
+    "stdio.h": "c"
   }
 }

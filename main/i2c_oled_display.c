@@ -157,76 +157,29 @@ void start_lvgl_task(void)
     #endif
 }
 
-void oled_scroll_text(void) {
-
-    ESP_LOGI(OLED_INIT, "Display LVGL Scroll Text");
+void lvgl_scroll_text(void)
+{
+    ESP_LOGI(OLED_INIT, "Display LVGL Scroll Text");    
     // Lock the mutex due to the LVGL APIs are not thread-safe
     _lock_acquire(&lvgl_api_lock);
-    lvgl_scroll_text(lvgl_disp);
+    lv_obj_t *screen = lv_display_get_screen_active(lvgl_disp);
+    lv_obj_t *label = lv_label_create(screen);
+    lv_label_set_long_mode(label, LV_LABEL_LONG_SCROLL_CIRCULAR); /* Circular scroll */
+    lv_label_set_text(label, "Lucci's Sausage Party!");
+    /* Size of the screen (if you use rotation 90 or 270, please use lv_display_get_vertical_resolution) */
+    lv_obj_set_width(label, lv_display_get_horizontal_resolution(lvgl_disp));
+    lv_obj_align(label, LV_ALIGN_TOP_MID, 0, 0);
     _lock_release(&lvgl_api_lock);
 }
 
-void lvgl_scroll_text(lv_display_t *disp)
-{
-    lv_obj_t *scr = lv_display_get_screen_active(disp);
-    lv_obj_t *label = lv_label_create(scr);
-    lv_label_set_long_mode(label, LV_LABEL_LONG_SCROLL_CIRCULAR); /* Circular scroll */
-    lv_label_set_text(label, "Why are my balls itchy?");
-    /* Size of the screen (if you use rotation 90 or 270, please use lv_display_get_vertical_resolution) */
-    lv_obj_set_width(label, lv_display_get_horizontal_resolution(disp));
-    lv_obj_align(label, LV_ALIGN_TOP_MID, 0, 0);
+void update_readings_internal(sensor_reading_t new_data) {
+    if(temp_label_internal) lv_label_set_text_fmt(temp_label_internal, "%.1f°C", new_data.temperature[CURRENT]);
+    if(hum_label_internal)  lv_label_set_text_fmt(hum_label_internal, "%.1f%%", new_data.humidity[CURRENT]);
 }
 
-
-/*
-void create_dashboard(lv_obj_t *screen, const char *initial_text, istruct sensor_reading_t *new_data,
-                      const lv_img_dsc_t *therm_img, const lv_img_dsc_t *hum_img) {
-    // Main container
-    lv_obj_t *main_cont = lv_obj_create(screen);
-    lv_obj_set_size(main_cont, LV_PCT(100), LV_PCT(100));
-    lv_obj_set_layout(main_cont, LV_LAYOUT_FLEX_COL);
-    lv_obj_set_flex_align(main_cont, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
-
-    // Top scrolling text
-    scrolling_label = lv_label_create(main_cont);
-    lv_label_set_text(scrolling_label, initial_text);
-    lv_label_set_long_mode(scrolling_label, LV_LABEL_LONG_SCROLL_CIRCULAR);
-    lv_obj_set_width(scrolling_label, LV_PCT(100));
-    lv_obj_set_style_text_font(scrolling_label, &lv_font_montserrat_12, 0);
-
-    // Bottom horizontal row for icons + values
-    lv_obj_t *icon_row = lv_obj_create(main_cont);
-    lv_obj_set_width(icon_row, LV_PCT(100));
-    lv_obj_set_layout(icon_row, LV_LAYOUT_FLEX_ROW);
-    lv_obj_set_flex_align(icon_row, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_START);
-
-    // Temperature container
-    lv_obj_t *temp_cont = lv_obj_create(icon_row);
-    lv_obj_set_layout(temp_cont, LV_LAYOUT_FLEX_ROW);
-    lv_obj_set_flex_align(temp_cont, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_START);
-
-    lv_obj_t *temp_img = lv_img_create(temp_cont);
-    lv_img_set_src(temp_img, therm_img);
-
-    temp_label = lv_label_create(temp_cont);
-    lv_label_set_text_fmt(temp_label, "%d°C", temp);
-
-    // Humidity container
-    lv_obj_t *hum_cont = lv_obj_create(icon_row);
-    lv_obj_set_layout(hum_cont, LV_LAYOUT_FLEX_ROW);
-    lv_obj_set_flex_align(hum_cont, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_START);
-
-    lv_obj_t *hum_img_obj = lv_img_create(hum_cont);
-    lv_img_set_src(hum_img_obj, hum_img);
-
-    hum_label = lv_label_create(hum_cont);
-    lv_label_set_text_fmt(hum_label, "%d%%", hum);
-}
-*/
-
-void update_readings(sensor_reading_t new_data) {
-    if(temp_label) lv_label_set_text_fmt(temp_label, "%.1f°C", new_data.temperature[CURRENT]);
-    if(hum_label)  lv_label_set_text_fmt(hum_label, "%.1f%%", new_data.humidity[CURRENT]);
+void update_readings_ambient(sensor_reading_t new_data) {
+    if(temp_label_ambient) lv_label_set_text_fmt(temp_label_ambient, "%.1f°C", new_data.temperature[CURRENT]);
+    if(hum_label_ambient)  lv_label_set_text_fmt(hum_label_ambient, "%.1f%%", new_data.humidity[CURRENT]);
 }
 
 void ssd1306_bus_init(void) {

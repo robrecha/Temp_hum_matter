@@ -9,13 +9,15 @@ extern "C" {
 #include "sensor_data.h"
 
 static lv_obj_t *scrolling_label;
-static lv_obj_t *temp_label;
-static lv_obj_t *hum_label;
+static lv_obj_t *temp_label_internal;
+static lv_obj_t *hum_label_internal;
+static lv_obj_t *temp_label_ambient;
+static lv_obj_t *hum_label_ambient;
 
 static lv_display_t *lvgl_disp;
 
-void oled_scroll_text(void);
-void lvgl_scroll_text(lv_display_t *disp);
+//void oled_scroll_text(void);
+void lvgl_scroll_text(void);
 /*void create_dashboard(lv_obj_t *screen, const char *initial_text, struct sensor_reading_t *new_data,
                       const lv_img_dsc_t *therm_img, const lv_img_dsc_t *hum_img);*/
 void create_temp_hum_screen(void);
